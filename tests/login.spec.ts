@@ -8,6 +8,7 @@ test.describe('Login Tests', () => {
   test.beforeEach(async ({ page }) => {
     loginPage = new LoginPage(page);
     await loginPage.goto();
+  
   });
 
 
@@ -21,6 +22,13 @@ test.describe('Login Tests', () => {
   test('should validate email format - no at symbol', async ({ page }) => {
     await loginPage.clickLetsGo();
     await loginPage.fillCredentials(invalidEmails.noAtSymbol.email, invalidEmails.noAtSymbol.password);
+    await loginPage.clickSignIn();
+    await loginPage.expectToBeOnLoginPage();
+  });
+
+  test('Test Invalid Email Format - no domain', async ({ page }) => {
+    await loginPage.clickLetsGo();
+    await loginPage.fillCredentials(invalidEmails.noDomain.email, invalidEmails.noDomain.password);
     await loginPage.clickSignIn();
     await loginPage.expectToBeOnLoginPage();
   });
