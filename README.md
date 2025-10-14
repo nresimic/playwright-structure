@@ -172,6 +172,11 @@ npx playwright test --update-snapshots
 3. Ensure all tests pass
 4. Submit a pull request
 
+## 👥 Authors
+
+- Brane Resimić
+- Nenad Resimić
+
 ## 📄 License
 
 ISC
