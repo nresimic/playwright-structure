@@ -29,9 +29,9 @@ function serveStatic(res: http.ServerResponse, filePath: string) {
   createReadStream(filePath).pipe(res);
 }
 
-function safeJoin(base: string, target: string) {
+function safeJoin(base: string, target: string): string | null {
   const p = normalize(join(base, target));
-  if (!p.startsWith(base)) return base;
+  if (!p.startsWith(base)) return null;
   return p;
 }
 
@@ -66,7 +66,9 @@ const server = http.createServer((req: http.IncomingMessage, res: http.ServerRes
   }
   if (req.method === 'GET') {
     let filePath = safeJoin(publicDir, url.pathname === '/' ? 'index.html' : url.pathname);
-    if (!existsSync(filePath)) filePath = join(publicDir, 'index.html');
+    if (!filePath || !existsSync(filePath)) {
+      filePath = join(publicDir, 'index.html');
+    }
     return serveStatic(res, filePath);
   }
   res.statusCode = 404;

@@ -30,7 +30,7 @@ function serveStatic(res, filePath) {
 function safeJoin(base, target) {
     const p = (0, path_1.normalize)((0, path_1.join)(base, target));
     if (!p.startsWith(base))
-        return base;
+        return null;
     return p;
 }
 const server = http.createServer((req, res) => {
@@ -64,8 +64,9 @@ const server = http.createServer((req, res) => {
     }
     if (req.method === 'GET') {
         let filePath = safeJoin(publicDir, url.pathname === '/' ? 'index.html' : url.pathname);
-        if (!(0, fs_1.existsSync)(filePath))
+        if (!filePath || !(0, fs_1.existsSync)(filePath)) {
             filePath = (0, path_1.join)(publicDir, 'index.html');
+        }
         return serveStatic(res, filePath);
     }
     res.statusCode = 404;
