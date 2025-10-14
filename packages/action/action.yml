@@ -1,0 +1,43 @@
+name: Carbon Aware Gate
+description: Defers non-urgent jobs until the grid is cleaner
+inputs:
+  region:
+    description: Region identifier
+    required: false
+    default: us-east-1
+  threshold:
+    description: Carbon intensity threshold 0-100
+    required: false
+    default: '50'
+  max_wait_minutes:
+    description: Maximum minutes to wait
+    required: false
+    default: '60'
+  interval_seconds:
+    description: Polling interval in seconds
+    required: false
+    default: '300'
+  mode:
+    description: local or service
+    required: false
+    default: local
+  api_url:
+    description: API base URL when mode=service
+    required: false
+    default: ''
+  fail_on_timeout:
+    description: Fail the job if timeout
+    required: false
+    default: 'false'
+outputs:
+  proceed:
+    description: Whether to proceed running the job
+  intensity:
+    description: Final measured intensity
+  reason:
+    description: Reason for decision
+  waited_seconds:
+    description: Total wait time in seconds
+runs:
+  using: node20
+  main: dist/index.js

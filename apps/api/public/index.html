@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Carbon Aware CI</title>
+<style>
+:root { color-scheme: light dark }
+body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial; margin: 2rem; line-height: 1.5 }
+.card { border: 1px solid #8884; border-radius: 12px; padding: 16px; margin-bottom: 16px }
+.grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 16px }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 999px; background: #10b98122; color: #10b981; font-weight: 600 }
+.badge.red { background: #ef444422; color: #ef4444 }
+.kv { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center }
+small { color: #888 }
+</style>
+</head>
+<body>
+<h1>Carbon Aware CI</h1>
+<div class="grid">
+  <div class="card">
+    <div id="status"></div>
+    <div class="kv"><div>Region</div><div id="region">us-east-1</div></div>
+    <div class="kv"><div>Intensity</div><div id="intensity">–</div></div>
+    <div class="kv"><div>Threshold</div><div id="threshold">50</div></div>
+    <div class="kv"><div>Next Clean At</div><div id="next">–</div></div>
+  </div>
+  <div class="card">
+    <div class="kv"><div>Runs Deferred</div><div id="runs">0</div></div>
+    <div class="kv"><div>CO₂ Saved (kg)</div><div id="co2">0</div></div>
+    <div class="kv"><div>Cost Saved ($)</div><div id="cost">0</div></div>
+  </div>
+</div>
+<p><small>API: <code>/api/intensity</code>, <code>/api/metrics</code></small></p>
+<script>
+const regionEl = document.getElementById('region')
+const intensityEl = document.getElementById('intensity')
+const thresholdEl = document.getElementById('threshold')
+const nextEl = document.getElementById('next')
+const statusEl = document.getElementById('status')
+const runsEl = document.getElementById('runs')
+const co2El = document.getElementById('co2')
+const costEl = document.getElementById('cost')
+const region = new URLSearchParams(location.search).get('region') || 'us-east-1'
+const threshold = parseInt(new URLSearchParams(location.search).get('threshold') || '50', 10)
+regionEl.textContent = region
+thresholdEl.textContent = String(threshold)
+async function refresh() {
+  const a = await fetch(`/api/intensity?region=${encodeURIComponent(region)}&threshold=${threshold}`)
+  const data = await a.json()
+  intensityEl.textContent = String(data.intensity)
+  nextEl.textContent = data.nextCleanAt ? new Date(data.nextCleanAt).toLocaleString() : 'now'
+  statusEl.innerHTML = data.clean ? '<span class="badge">Clean enough</span>' : '<span class="badge red">Deferring</span>'
+  const m = await fetch('/api/metrics')
+  const metrics = await m.json()
+  runsEl.textContent = String(metrics.runsDeferred)
+  co2El.textContent = String(metrics.co2SavedKg)
+  costEl.textContent = String(metrics.costSavedUsd)
+}
+refresh()
+setInterval(refresh, 30000)
+</script>
+</body>
+</html>

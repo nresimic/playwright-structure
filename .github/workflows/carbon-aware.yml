@@ -1,0 +1,23 @@
+name: Carbon Aware Demo
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: gate
+        uses: ./packages/action
+        with:
+          region: us-east-1
+          threshold: '50'
+          max_wait_minutes: '10'
+          interval_seconds: '30'
+      - name: Proceeded
+        if: steps.gate.outputs.proceed == 'true'
+        run: echo "Proceeding with job"
+      - name: Deferred
+        if: steps.gate.outputs.proceed != 'true'
+        run: echo "Deferred due to high intensity"
