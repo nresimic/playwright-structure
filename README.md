@@ -176,6 +176,11 @@ npx playwright test --update-snapshots
 
 ISC
 
+## 🔄 Recent Updates
+
+- Fixed path traversal vulnerability in API service
+- Enhanced security for file serving functionality
+
 ---
 
 **Built with ❤️ using Playwright and TypeScript**
