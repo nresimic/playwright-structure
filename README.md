@@ -53,3 +53,8 @@ npm run report
 - **Headed Mode**: Enabled by default for development
 - **Reporters**: HTML, JSON, and JUnit reports
 - **Multiple Browsers**: Chrome, Firefox, Safari, Mobile viewports
+
+## Recent Updates
+
+- Fixed path traversal vulnerability in API service
+- Enhanced security for file serving functionality
