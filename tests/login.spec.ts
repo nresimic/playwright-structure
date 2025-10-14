@@ -17,6 +17,7 @@ test.describe('Login Tests', () => {
 
   test('should validate empty fields', async ({ page }) => {
     await loginPage.clickLetsGo();
+    console.log('Clicked Lets Go');
     await loginPage.clickSignIn();
     
     await loginPage.expectToBeOnLoginPage();
