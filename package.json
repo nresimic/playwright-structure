@@ -6,7 +6,10 @@
     "test": "playwright test",
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
-    "report": "playwright show-report"
+    "report": "playwright show-report",
+    "agent:explore": "tsx tests/agents/explorer.ts",
+    "agent:generate": "tsx tests/agents/generator.ts",
+    "agent:review": "tsx tests/agents/reviewer.ts"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +18,12 @@
   "devDependencies": {
     "@playwright/test": "^1.54.2",
     "@types/node": "^24.3.0",
+    "tsx": "^4.20.6",
     "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "execa": "^9.6.0",
+    "openai": "^4.104.0",
+    "zod": "^3.25.76"
   }
 }
