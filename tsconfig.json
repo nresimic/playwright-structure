@@ -14,7 +14,7 @@
   },
   "include": [
     "tests/**/*",
-    "agents/**/*",
+    "tests/agents/**/*",
     "generated-tests/**/*",
     "pages/**/*",
     "playwright.config.ts"

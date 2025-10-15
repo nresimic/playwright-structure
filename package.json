@@ -7,9 +7,9 @@
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
     "report": "playwright show-report",
-    "agent:explore": "tsx agents/explorer.ts",
-    "agent:generate": "tsx agents/generator.ts",
-    "agent:review": "tsx agents/reviewer.ts"
+    "agent:explore": "tsx tests/agents/explorer.ts",
+    "agent:generate": "tsx tests/agents/generator.ts",
+    "agent:review": "tsx tests/agents/reviewer.ts"
   },
   "keywords": [],
   "author": "",
